@@ -39,6 +39,10 @@ jobs:
       - name: Build homepage
         working-directory: homepage
         run: pnpm build
+        env:
+          # Astro's CLI emits anonymous build telemetry by default. Disable it
+          # so building the site phones nothing home.
+          ASTRO_TELEMETRY_DISABLED: '1'
 
       - name: Build core
         run: pnpm --filter @understand-anything/core build

@@ -111,6 +111,18 @@ function rejectFileRequest(message: string, statusCode = 400) {
   return { statusCode, payload: { error: message } };
 }
 
+// Constant-time token comparison. A plain `!==` leaks timing information that
+// could, in principle, be used to recover the token byte-by-byte. Over a
+// localhost loop the risk is small, but timing-safe compare is the correct
+// default for a secret check and costs nothing.
+function tokensMatch(provided: string | null, expected: string): boolean {
+  if (provided === null) return false;
+  const a = Buffer.from(provided);
+  const b = Buffer.from(expected);
+  if (a.length !== b.length) return false;
+  return crypto.timingSafeEqual(a, b);
+}
+
 function readSourceFile(url: URL) {
   const requestedPath = url.searchParams.get("path") ?? "";
   if (!requestedPath) return rejectFileRequest("Missing path");
@@ -148,9 +160,32 @@ function readSourceFile(url: URL) {
     return rejectFileRequest("File is not in the knowledge graph", 404);
   }
 
+  // Canonicalise with realpath before reading. The checks above validate the
+  // requested path string, but a symlink living *inside* the project whose
+  // target is outside the project (e.g. link.ts -> /etc/passwd) would otherwise
+  // be followed by statSync/readFileSync. Resolve both the root and the file to
+  // their real on-disk locations and require the target to remain inside root.
+  let realRoot: string;
+  let realFile: string;
+  try {
+    realRoot = fs.realpathSync(projectRoot);
+    realFile = fs.realpathSync(absoluteFile);
+  } catch {
+    return rejectFileRequest("File not found", 404);
+  }
+  const realRelative = path.relative(realRoot, realFile);
+  if (
+    !realRelative ||
+    realRelative.startsWith(`..${path.sep}`) ||
+    realRelative === ".." ||
+    path.isAbsolute(realRelative)
+  ) {
+    return rejectFileRequest("Path must stay inside the project");
+  }
+
   let stat: fs.Stats;
   try {
-    stat = fs.statSync(absoluteFile);
+    stat = fs.statSync(realFile);
   } catch {
     return rejectFileRequest("File not found", 404);
   }
@@ -160,7 +195,7 @@ function readSourceFile(url: URL) {
     return rejectFileRequest("File is too large to preview", 413);
   }
 
-  const buffer = fs.readFileSync(absoluteFile);
+  const buffer = fs.readFileSync(realFile);
   if (buffer.includes(0)) return rejectFileRequest("Binary files cannot be previewed", 415);
 
   const content = buffer.toString("utf8");
@@ -261,8 +296,9 @@ export default defineConfig({
           }
 
           // FIX 3 — require the one-time token on all data endpoints.
-          // Requests without a matching ?token= get a 403.
-          if (url.searchParams.get("token") !== ACCESS_TOKEN) {
+          // Requests without a matching ?token= get a 403. Compared in
+          // constant time to avoid leaking the token via response timing.
+          if (!tokensMatch(url.searchParams.get("token"), ACCESS_TOKEN)) {
             sendJson(res, 403, { error: "Forbidden: missing or invalid token" });
             return;
           }

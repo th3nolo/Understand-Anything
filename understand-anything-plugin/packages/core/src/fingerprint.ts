@@ -1,8 +1,19 @@
 import { createHash } from "node:crypto";
 import { readFileSync, existsSync } from "node:fs";
-import { join } from "node:path";
+import { join, relative, isAbsolute } from "node:path";
 import type { StructuralAnalysis } from "./types.js";
 import type { PluginRegistry } from "./plugins/registry.js";
+
+/**
+ * Guard against path traversal: returns true only when `filePath` resolves to a
+ * location inside `projectDir`. Callers normally pass project-relative paths
+ * (from the scanner or `git diff --name-only`), but these are public library
+ * entry points — an entry like `../../etc/passwd` must never escape the root.
+ */
+function isInsideProject(projectDir: string, filePath: string): boolean {
+  const rel = relative(projectDir, join(projectDir, filePath));
+  return rel.length > 0 && !rel.startsWith("..") && !isAbsolute(rel);
+}
 
 // ---- Fingerprint types ----
 
@@ -259,6 +270,7 @@ export function buildFingerprintStore(
   const files: Record<string, FileFingerprint> = {};
 
   for (const filePath of filePaths) {
+    if (!isInsideProject(projectDir, filePath)) continue;
     const absolutePath = join(projectDir, filePath);
     if (!existsSync(absolutePath)) continue;
 
@@ -308,6 +320,7 @@ export function analyzeChanges(
   const unchangedFiles: string[] = [];
 
   for (const filePath of changedFiles) {
+    if (!isInsideProject(projectDir, filePath)) continue;
     const absolutePath = join(projectDir, filePath);
     const existedBefore = filePath in existingStore.files;
     const existsNow = existsSync(absolutePath);
