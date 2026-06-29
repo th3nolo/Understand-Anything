@@ -6,6 +6,13 @@ export interface StalenessResult {
   changedFiles: string[];
 }
 
+// A git object name is hex (abbreviated SHA-1 down to ~4 chars, full SHA-256 is
+// 64). Restricting to this shape blocks argument injection: execFileSync already
+// prevents shell injection, but an unvalidated value beginning with "-" (e.g.
+// "--output=...") could still be misread by git as an option rather than a
+// revision. Anything outside this shape is rejected before it reaches git.
+const COMMIT_HASH_RE = /^[0-9a-f]{4,64}$/i;
+
 /**
  * Get the list of files that changed between a given commit and HEAD.
  * Returns an empty array if there are no changes or if git encounters an error.
@@ -14,6 +21,10 @@ export function getChangedFiles(
   projectDir: string,
   lastCommitHash: string,
 ): string[] {
+  // Defence-in-depth: never interpolate an unvalidated value into the git argv.
+  if (!COMMIT_HASH_RE.test(lastCommitHash)) {
+    return [];
+  }
   try {
     const output = execFileSync('git', ['diff', `${lastCommitHash}..HEAD`, '--name-only'], {
       cwd: projectDir,

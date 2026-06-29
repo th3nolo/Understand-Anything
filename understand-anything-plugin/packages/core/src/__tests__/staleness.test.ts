@@ -84,6 +84,23 @@ describe("getChangedFiles", () => {
 
     expect(result).toEqual([]);
   });
+
+  it("rejects a non-hex revision without invoking git (argument-injection guard)", () => {
+    expect(getChangedFiles("/project", "--output=/tmp/pwn")).toEqual([]);
+    expect(getChangedFiles("/project", "")).toEqual([]);
+    expect(getChangedFiles("/project", "abc123; rm -rf /")).toEqual([]);
+    expect(getChangedFiles("/project", "HEAD~1")).toEqual([]);
+    expect(mockedExecFileSync).not.toHaveBeenCalled();
+  });
+
+  it("accepts valid hex revisions (full and abbreviated)", () => {
+    mockedExecFileSync.mockReturnValue("src/index.ts\n");
+    expect(getChangedFiles("/project", "a1b2c3d")).toEqual(["src/index.ts"]);
+    expect(
+      getChangedFiles("/project", "0123456789abcdef0123456789abcdef01234567"),
+    ).toEqual(["src/index.ts"]);
+    expect(mockedExecFileSync).toHaveBeenCalledTimes(2);
+  });
 });
 
 describe("isStale", () => {

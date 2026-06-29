@@ -424,4 +424,20 @@ describe("analyzeChanges", () => {
     expect(result.deletedFiles).toHaveLength(0);
     expect(result.fileChanges).toHaveLength(0);
   });
+
+  it("ignores paths that escape the project root (traversal guard)", () => {
+    mockedExistsSync.mockReturnValue(true);
+    mockedReadFileSync.mockReturnValue("malicious");
+
+    const result = analyzeChanges(
+      "/project",
+      ["../../etc/passwd", "../outside.ts"],
+      existingStore,
+      mockRegistry,
+    );
+
+    expect(result.newFiles).toHaveLength(0);
+    expect(result.fileChanges).toHaveLength(0);
+    expect(mockedReadFileSync).not.toHaveBeenCalled();
+  });
 });

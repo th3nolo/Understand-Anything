@@ -6,10 +6,10 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+    "dev": "node ./scripts/run-astro.mjs dev",
+    "build": "node ./scripts/run-astro.mjs build",
+    "preview": "node ./scripts/run-astro.mjs preview",
+    "astro": "node ./scripts/run-astro.mjs"
   },
   "dependencies": {
     "astro": "^6.1.6"

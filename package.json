@@ -4,13 +4,13 @@
   "type": "module",
   "description": "An open-source tool combining LLM intelligence + static analysis to produce interactive dashboards for understanding codebases.",
   "license": "MIT",
-  "homepage": "https://github.com/Egonex-AI/Understand-Anything#readme",
+  "homepage": "https://github.com/th3nolo/Understand-Anything#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Egonex-AI/Understand-Anything.git"
+    "url": "git+https://github.com/th3nolo/Understand-Anything.git"
   },
   "bugs": {
-    "url": "https://github.com/Egonex-AI/Understand-Anything/issues"
+    "url": "https://github.com/th3nolo/Understand-Anything/issues"
   },
   "keywords": [
     "claude-code",
@@ -25,7 +25,7 @@
     "claude-plugin"
   ],
   "main": ".opencode/plugins/understand-anything.js",
-  "packageManager": "pnpm@10.6.2+sha512.47870716bea1572b53df34ad8647b42962bc790ce2bf4562ba0f643237d7302a3d6a8ecef9e4bdfc01d23af1969aa90485d4cebb0b9638fa5ef1daef656f6c1b",
+  "packageManager": "pnpm@10.34.4+sha512.8768be55200ae3f2226b6527fcca2687e14bc4e5f12d7721a0f25da3df47915177058648db4177baf348120fa0ba2752d8d8d93f6beaf1fe64ae18da8de961af",
   "scripts": {
     "prepare": "pnpm --filter @understand-anything/core build",
     "build": "pnpm -r build",
