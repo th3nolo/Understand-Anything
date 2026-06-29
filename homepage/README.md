@@ -14,7 +14,7 @@ homepage/
 ```
 
 The homepage is published as a static Astro site. Public messaging should use
-the Egonex organization identity and link company/product traffic to
+the th3nolo organization identity and link company/product traffic to
 `https://egonex.ai` where relevant.
 
 ## Commands

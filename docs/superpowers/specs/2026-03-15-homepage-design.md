@@ -45,7 +45,7 @@ Staggered fade-in animation:
 - Headline: "Get started in 30 seconds"
 - Code block:
   ```
-  /plugin marketplace add Egonex-AI/Understand-Anything
+  /plugin marketplace add th3nolo/Understand-Anything
   /plugin install understand-anything
   /understand
   ```

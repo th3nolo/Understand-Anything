@@ -15,7 +15,7 @@
 
 <p align="center">
   <a href="#-快速开始"><img src="https://img.shields.io/badge/快速开始-blue" alt="Quick Start" /></a>
-  <a href="https://github.com/Egonex-AI/Understand-Anything/blob/main/LICENSE"><img src="https://img.shields.io/badge/许可证-MIT-yellow" alt="License: MIT" /></a>
+  <a href="https://github.com/th3nolo/Understand-Anything/blob/main/LICENSE"><img src="https://img.shields.io/badge/许可证-MIT-yellow" alt="License: MIT" /></a>
   <a href="https://docs.anthropic.com/en/docs/claude-code"><img src="https://img.shields.io/badge/Claude_Code-8A2BE2" alt="Claude Code" /></a>
   <a href="#codex"><img src="https://img.shields.io/badge/Codex-000000" alt="Codex" /></a>
   <a href="#vs-code--github-copilot"><img src="https://img.shields.io/badge/Copilot-24292e" alt="Copilot" /></a>
@@ -31,7 +31,7 @@
 </p>
 
 <p align="center">
-  <strong>An open-source project from <a href="https://github.com/Egonex-AI">Egonex</a></strong>
+  <strong>An open-source project from <a href="https://github.com/th3nolo">th3nolo</a></strong>
   <br />
   <em>Originally created by <a href="https://github.com/Lum1104">Lum1104</a>.</em>
 </p>
@@ -103,7 +103,7 @@ Understand Anything 是一个 [Claude Code Plugin](https://code.claude.com/docs/
 ### 1. 安装插件
 
 ```bash
-/plugin marketplace add Egonex-AI/Understand-Anything
+/plugin marketplace add th3nolo/Understand-Anything
 /plugin install understand-anything
 ```
 
@@ -181,7 +181,7 @@ Understand-Anything 可在多个 AI 编码平台上运行。
 ### Claude Code（原生）
 
 ```bash
-/plugin marketplace add Egonex-AI/Understand-Anything
+/plugin marketplace add th3nolo/Understand-Anything
 /plugin install understand-anything
 ```
 
@@ -189,14 +189,14 @@ Understand-Anything 可在多个 AI 编码平台上运行。
 
 **macOS / Linux：**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Egonex-AI/Understand-Anything/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/th3nolo/Understand-Anything/main/install.sh | bash
 # 也可以直接传入平台名跳过交互提示：
-curl -fsSL https://raw.githubusercontent.com/Egonex-AI/Understand-Anything/main/install.sh | bash -s codex
+curl -fsSL https://raw.githubusercontent.com/th3nolo/Understand-Anything/main/install.sh | bash -s codex
 ```
 
 **Windows（PowerShell）：**
 ```powershell
-iwr -useb https://raw.githubusercontent.com/Egonex-AI/Understand-Anything/main/install.ps1 | iex
+iwr -useb https://raw.githubusercontent.com/th3nolo/Understand-Anything/main/install.ps1 | iex
 ```
 
 安装脚本会将仓库克隆到 `~/.understand-anything/repo`，并为所选平台创建相应的符号链接。安装完成后请重启 CLI 或 IDE。
@@ -209,7 +209,7 @@ iwr -useb https://raw.githubusercontent.com/Egonex-AI/Understand-Anything/main/i
 
 克隆此仓库后，Cursor 会自动通过 `.cursor-plugin/plugin.json`文件发现插件。无需手动安装 — 只需克隆并在 Cursor 中打开即可。
 
-若自动发现未生效，可手动安装：打开 **Cursor Settings → Plugins**，在搜索框中粘贴 `https://github.com/Egonex-AI/Understand-Anything` 并添加。
+若自动发现未生效，可手动安装：打开 **Cursor Settings → Plugins**，在搜索框中粘贴 `https://github.com/th3nolo/Understand-Anything` 并添加。
 
 ### VS Code + GitHub Copilot
 
@@ -220,13 +220,13 @@ iwr -useb https://raw.githubusercontent.com/Egonex-AI/Understand-Anything/main/i
 ### Copilot CLI
 
 ```bash
-copilot plugin install Egonex-AI/Understand-Anything:understand-anything-plugin
+copilot plugin install th3nolo/Understand-Anything:understand-anything-plugin
 ```
 
 ### Kiro CLI / IDE
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Egonex-AI/Understand-Anything/main/install.sh | bash -s kiro
+curl -fsSL https://raw.githubusercontent.com/th3nolo/Understand-Anything/main/install.sh | bash -s kiro
 ```
 
 安装完成后：
@@ -345,11 +345,11 @@ git add .gitattributes .understand-anything/
 
 ## Star 历史记录
 
-<a href="https://www.star-history.com/?repos=Egonex-AI%2FUnderstand-Anything&type=date&legend=top-left">
+<a href="https://www.star-history.com/?repos=th3nolo%2FUnderstand-Anything&type=date&legend=top-left">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/image?repos=Egonex-AI/Understand-Anything&type=date&theme=dark&legend=top-left" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/image?repos=Egonex-AI/Understand-Anything&type=date&legend=top-left" />
-   <img alt="Star History Chart" src="https://api.star-history.com/image?repos=Egonex-AI/Understand-Anything&type=date&legend=top-left" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/image?repos=th3nolo/Understand-Anything&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/image?repos=th3nolo/Understand-Anything&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/image?repos=th3nolo/Understand-Anything&type=date&legend=top-left" />
  </picture>
 </a>
 
